@@ -243,7 +243,7 @@ func move_knob(event_pos : Vector2) -> void:
 func trigger_actions() -> void:
 	if not use_input_actions: return
 	
-	var direction := get_direction().normalized()
+	var direction := get_direction().normalized() * get_factor()
 	
 	if direction.x < 0.0:
 		Input.action_release(action_right)
@@ -295,7 +295,7 @@ func get_angle() -> float:
 func get_factor() -> float:
 	var center := size / 2.0
 	var distance := center.distance_to(knob_position)
-	return distance / base_radius
+	return clampf(remap(distance, deadzone, base_radius, 0, 1), 0, 1)
 
 ## Returns true if the center to knob distance
 ## is greater than the deadzone size
